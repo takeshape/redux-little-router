@@ -7,7 +7,7 @@ import type { Location } from '../types';
 import UrlPattern from 'url-pattern';
 import React, { Children, Component } from 'react';
 import { connect } from 'react-redux';
-import { compose, withContext, getContext } from 'recompose';
+import { compose, withContext, getContext } from '@hypnosphi/recompose';
 import PropTypes from 'prop-types';
 
 import matchCache from '../util/match-cache';

@@ -1,7 +1,7 @@
 // @flow
 import type { MapStateToProps } from 'react-redux';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose } from '@hypnosphi/recompose';
 
 import { FragmentComponent, withIdAndContext } from '../../components/fragment';
 import propsToJS from './props-to-js';
