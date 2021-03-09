@@ -58,7 +58,7 @@
     "lodash.assign": "^4.2.0",
     "prop-types": "^15.5.8",
     "query-string": "^5.0.1",
-    "recompose": "^0.26.0",
+    "@hypnosphi/recompose": "~0.30.5",
     "url-pattern": "^1.0.3"
   },
   "devDependencies": {
