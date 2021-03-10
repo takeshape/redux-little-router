@@ -4,7 +4,7 @@ import sinonChai from 'sinon-chai';
 import { fromJS } from 'immutable';
 import { combineReducers as combineReduxReducers } from 'redux';
 import { combineReducers as combineImmutableReducers } from 'redux-immutable';
-import * as createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
 import routerForBrowser from '../../src/environment/browser-router';
 import immutableRouterForBrowser from '../../src/immutable/environment/browser-router';

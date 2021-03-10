@@ -4,7 +4,7 @@ import sinonChai from 'sinon-chai';
 import { fromJS } from 'immutable';
 import { combineReducers as combineReduxReducers } from 'redux';
 import { combineReducers as combineImmutableReducers } from 'redux-immutable';
-import * as createHashHistory from 'history/createHashHistory';
+import { createHashHistory } from 'history';
 
 import routerForHash from '../../src/environment/hash-router';
 import immutableRouterForHash from '../../src/immutable/environment/hash-router';

@@ -1,6 +1,6 @@
 // @flow
 import type { History, HashHistoryOptions } from 'history';
-import createHashHistory from 'history/createHashHistory';
+import { createHashHistory } from 'history';
 
 import normalizeHref from '../util/normalize-href';
 import install from '../install';

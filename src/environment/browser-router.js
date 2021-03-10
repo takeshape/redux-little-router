@@ -1,7 +1,7 @@
 // @flow
 import type { History, BrowserHistoryOptions } from 'history';
 
-import createBrowserHistory from 'history/createBrowserHistory';
+import { createBrowserHistory } from 'history';
 
 import normalizeHref from '../util/normalize-href';
 import install from '../install';

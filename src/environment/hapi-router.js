@@ -1,7 +1,7 @@
 // @flow
 import type { MemoryHistoryOptions } from 'history';
 
-import createMemoryHistory from 'history/createMemoryHistory';
+import { createMemoryHistory } from 'history';
 
 import normalizeHref from '../util/normalize-href';
 import install from '../install';

@@ -1,6 +1,6 @@
 {
-  "name": "redux-little-router",
-  "version": "15.1.2",
+  "name": "redux-little-router-create-factory-fix",
+  "version": "15.1.6",
   "description": "A barebones routing solution for Redux applications.",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -54,11 +54,11 @@
   },
   "homepage": "https://github.com/FormidableLabs/redux-little-router#readme",
   "dependencies": {
+    "@hypnosphi/recompose": "~0.30.5",
     "history": "^4.6.1",
     "lodash.assign": "^4.2.0",
     "prop-types": "^15.5.8",
     "query-string": "^5.0.1",
-    "@hypnosphi/recompose": "~0.30.5",
     "url-pattern": "^1.0.3"
   },
   "devDependencies": {
