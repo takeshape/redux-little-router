@@ -1,32 +1,14 @@
 // @flow
-/* eslint-disable react/sort-comp */
+/* eslint-disable react/sort-comp, max-statements */
 import type { Node } from 'react';
 import type { MapStateToProps } from 'react-redux';
 import type { Location } from '../types';
 
 import UrlPattern from 'url-pattern';
-import React, { Children, Component } from 'react';
+import React, { Children, useMemo, useContext, useState } from 'react';
 import { connect } from 'react-redux';
-import { compose, withContext, getContext } from '@hypnosphi/recompose';
-import PropTypes from 'prop-types';
-
-import matchCache from '../util/match-cache';
+import { MatchCache } from '../util/match-cache';
 import generateId from '../util/generate-id';
-import throwError from '../util/throw-error';
-
-const withId = ComposedComponent =>
-  class WithId extends Component<*> {
-    id: string;
-
-    constructor() {
-      super();
-      this.id = generateId();
-    }
-
-    render() {
-      return <ComposedComponent {...this.props} id={this.id} />;
-    }
-  };
 
 const resolveChildRoute = (parentRoute, currentRoute) => {
   const parentIsRootRoute =
@@ -88,96 +70,65 @@ type Props = {
   matchRoute: Function,
   matchWildcardRoute: Function,
   forRoute?: string,
-  parentRoute?: string,
   withConditions?: (location: Location) => boolean,
   forNoMatch?: boolean,
-  parentId?: string,
   children: Node
 };
 
-export class FragmentComponent extends Component<*> {
-  matcher: ?Object;
+const FragmentContext = React.createContext({});
 
-  constructor(props: Props) {
-    super(props);
+const counter = {};
 
-    const currentRoute = resolveCurrentRoute(props.parentRoute, props.forRoute);
+export const FragmentComponent: React$StatelessFunctionalComponent<
+  Props
+> = props => {
+  const { children, forRoute, withConditions, forNoMatch, location } = props;
+  const [id] = useState(() => generateId());
+  const { parentId, parentRoute, matchCache = new MatchCache() } = useContext(
+    FragmentContext
+  );
+  const currentRoute = resolveCurrentRoute(parentRoute, forRoute);
+  const matcher = useMemo(
+    () => (currentRoute && new UrlPattern(currentRoute)) || null,
+    [currentRoute]
+  );
 
-    this.matcher = (currentRoute && new UrlPattern(currentRoute)) || null;
+  counter[id] = counter[id] === undefined ? 1 : counter[id] + 1;
+
+  const shouldShow = shouldShowFragment({
+    forRoute,
+    withConditions,
+    matcher,
+    location
+  });
+
+  if (!shouldShow && !forNoMatch) {
+    return null;
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (this.props.forRoute !== nextProps.forRoute) {
-      throwError('Updating route props is not yet supported')();
-    }
-
-    // When Fragment rerenders, matchCache can get out of sync.
-    // Blow it away at the root Fragment on every render.
-    if (!this.props.parentId) {
-      matchCache.clear();
-    }
-  }
-
-  render() {
-    const { matcher } = this;
-    const {
-      children,
-      forRoute,
-      withConditions,
-      forNoMatch,
-      location,
-      parentRoute,
-      parentId
-    } = this.props;
-
-    const shouldShow = shouldShowFragment({
-      forRoute,
-      withConditions,
-      matcher,
-      location
-    });
-
-    if (!shouldShow && !forNoMatch) {
+  if (parentId) {
+    const previousMatch = matchCache.get(parentId);
+    if (previousMatch && previousMatch !== currentRoute) {
       return null;
+    } else {
+      matchCache.add(parentId, currentRoute);
     }
-
-    const currentRoute = resolveCurrentRoute(parentRoute, forRoute);
-
-    if (parentId) {
-      const previousMatch = matchCache.get(parentId);
-      if (previousMatch && previousMatch !== currentRoute) {
-        return null;
-      } else {
-        matchCache.add(parentId, currentRoute);
-      }
-    }
-
-    return Children.only(children);
   }
-}
 
-export const withIdAndContext = compose(
-  getContext({
-    parentRoute: PropTypes.string,
-    parentId: PropTypes.string
-  }),
-  withId,
-  withContext(
-    {
-      parentRoute: PropTypes.string,
-      parentId: PropTypes.string
-    },
-    props => ({
-      parentRoute: resolveChildRoute(props.parentRoute, props.forRoute),
-      parentId: props.id
-    })
-  )
-);
+  const contextValue = {
+    parentRoute: resolveChildRoute(parentRoute, forRoute),
+    parentId: id,
+    matchCache
+  };
+  return (
+    <FragmentContext.Provider value={contextValue}>
+      {Children.only(children)}
+    </FragmentContext.Provider>
+  );
+};
 
 const mapStateToProps: MapStateToProps<*, *, *> = state => ({
   location: state.router
 });
 
-export default compose(connect(mapStateToProps), withIdAndContext)(
-  FragmentComponent
-);
+export default connect(mapStateToProps)(FragmentComponent);

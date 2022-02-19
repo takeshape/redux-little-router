@@ -26,7 +26,7 @@ export const fakeStore = ({
   immutable = false
 } = {}) => {
   const history = createMemoryHistory();
-  const state = {
+  let state = {
     router: {
       basename,
       pathname,
@@ -36,11 +36,12 @@ export const fakeStore = ({
       route
     }
   };
+  state = immutable ? fromJS(state) : state;
 
   return {
     subscribe() {},
     getState() {
-      return immutable ? fromJS(state) : state;
+      return state;
     },
     dispatch(action) {
       assertion && assertion(action);

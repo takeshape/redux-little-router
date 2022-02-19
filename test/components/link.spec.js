@@ -15,27 +15,23 @@ import {
   ImmutablePersistentQueryLink
 } from '../../src/immutable/components/link';
 
-import {
-  captureErrors,
-  fakeContext,
-  fakeImmutableContext,
-  standardClickEvent
-} from '../test-util';
+import { captureErrors, fakeStore, standardClickEvent } from '../test-util';
+import { Provider } from 'react-redux';
 
 chai.use(sinonChai);
 
 const linkTest = {
   Link: LinkComponent,
-  context: fakeContext,
+  immutable: false,
   testLabel: 'Link'
 };
 const immutableLinkTest = {
   Link: ImmutableLink,
-  context: fakeImmutableContext,
+  immutable: true,
   testLabel: 'ImmutableLink'
 };
 
-[linkTest, immutableLinkTest].forEach(({ Link, context, testLabel }) => {
+[linkTest, immutableLinkTest].forEach(({ Link, immutable, testLabel }) => {
   describe(`${testLabel}`, () => {
     describe('PUSH', () => {
       const hrefs = [
@@ -71,7 +67,12 @@ const immutableLinkTest = {
             }
           };
 
-          const wrapper = mount(<Link href={href} />, context({ assertion }));
+          const store = fakeStore({ assertion, immutable });
+          const wrapper = mount(
+            <Provider store={store}>
+              <Link href={href} />
+            </Provider>
+          );
 
           wrapper.find('a').simulate('click', standardClickEvent);
         });
@@ -89,9 +90,11 @@ const immutableLinkTest = {
             }
           };
 
+          const store = fakeStore({ immutable, assertion });
           const wrapper = mount(
-            <Link href={href} persistQuery />,
-            context({ assertion })
+            <Provider store={store}>
+              <Link href={href} persistQuery />
+            </Provider>
           );
 
           wrapper.find('a').simulate('click', standardClickEvent);
@@ -133,9 +136,11 @@ const immutableLinkTest = {
             }
           };
 
+          const store = fakeStore({ immutable, assertion });
           const wrapper = mount(
-            <Link replaceState href={href} />,
-            context({ assertion })
+            <Provider store={store}>
+              <Link replaceState href={href} />
+            </Provider>
           );
 
           wrapper.find('a').simulate('click', standardClickEvent);
@@ -146,7 +151,12 @@ const immutableLinkTest = {
     describe('Accessibility', () => {
       ['shiftKey', 'altKey', 'metaKey', 'ctrlKey'].forEach(modifierKey =>
         it(`uses default browser behavior when the user holds the ${modifierKey}`, () => {
-          const wrapper = mount(<Link href="/home/things" />, context());
+          const store = fakeStore({ immutable });
+          const wrapper = mount(
+            <Provider store={store}>
+              <Link href="/home/things" />
+            </Provider>
+          );
 
           const spy = sandbox.spy();
           wrapper.find('a').simulate('click', {
@@ -160,7 +170,12 @@ const immutableLinkTest = {
       );
 
       it('uses default browser behavior when the user clicks a non-left mouse button', () => {
-        const wrapper = mount(<Link href="/home/things" />, context());
+        const store = fakeStore({ immutable });
+        const wrapper = mount(
+          <Provider store={store}>
+            <Link href="/home/things" />
+          </Provider>
+        );
 
         const spy = sandbox.spy();
         wrapper.find('a').simulate('click', {
@@ -173,7 +188,12 @@ const immutableLinkTest = {
       });
 
       it('prevents default when the user left-clicks', () => {
-        const wrapper = mount(<Link href="/home/things" />, context());
+        const store = fakeStore({ immutable });
+        const wrapper = mount(
+          <Provider store={store}>
+            <Link href="/home/things" />
+          </Provider>
+        );
 
         const spy = sandbox.spy();
         wrapper.find('a').simulate('click', {
@@ -186,19 +206,21 @@ const immutableLinkTest = {
       });
 
       it('passes through DOM props, including aria attributes', () => {
+        const store = fakeStore({ immutable });
         const wrapper = mount(
-          <Link
-            href="/home/things"
-            aria-label="a11y"
-            className="classy"
-            style={{
-              fontFamily: 'Comic Sans'
-            }}
-          />,
-          context()
+          <Provider store={store}>
+            <Link
+              href="/home/things"
+              aria-label="a11y"
+              className="classy"
+              style={{
+                fontFamily: 'Comic Sans'
+              }}
+            />
+          </Provider>
         );
 
-        const props = wrapper.props();
+        const props = wrapper.childAt(0).props();
         expect(props).to.have.property('aria-label', 'a11y');
         expect(props).to.have.property('className', 'classy');
         expect(props)
@@ -210,9 +232,11 @@ const immutableLinkTest = {
 
       it('calls the onClick prop if provided', () => {
         const onClick = sandbox.stub();
+        const store = fakeStore({ immutable });
         const wrapper = mount(
-          <Link href="/home/things" onClick={onClick} />,
-          context()
+          <Provider store={store}>
+            <Link href="/home/things" onClick={onClick} />
+          </Provider>
         );
 
         wrapper.find('a').simulate('click', standardClickEvent);
@@ -225,7 +249,12 @@ const immutableLinkTest = {
       it('renders an <a /> with the correct href attribute', () => {
         const hrefs = ['/path', '/path?key=value', 'path/with/nested/routes'];
         hrefs.forEach(href => {
-          const wrapper = mount(<Link href={href} />, context());
+          const store = fakeStore({ immutable });
+          const wrapper = mount(
+            <Provider store={store}>
+              <Link href={href} />
+            </Provider>
+          );
           expect(wrapper.find('a').prop('href')).to.equal(href);
         });
       });
@@ -233,9 +262,11 @@ const immutableLinkTest = {
       it('renders an <a /> with the correct href attribute using a basename', () => {
         const hrefs = ['/path', '/path?key=value', 'path/with/nested/routes'];
         hrefs.forEach(href => {
+          const store = fakeStore({ immutable, basename: '/base' });
           const wrapper = mount(
-            <Link href={href} />,
-            context({ basename: '/base' })
+            <Provider store={store}>
+              <Link href={href} />
+            </Provider>
           );
           expect(wrapper.find('a').prop('href')).to.equal(`/base${href}`);
         });
@@ -255,7 +286,12 @@ const immutableLinkTest = {
           { pathname: 'path/with/nested/routes' }
         ];
         locations.forEach((location, index) => {
-          const wrapper = mount(<Link href={location} />, context());
+          const store = fakeStore({ immutable });
+          const wrapper = mount(
+            <Provider store={store}>
+              <Link href={location} />
+            </Provider>
+          );
           expect(wrapper.find('a').prop('href')).to.equal(expected[index]);
         });
       });
@@ -274,9 +310,11 @@ const immutableLinkTest = {
           { pathname: 'path/with/nested/routes' }
         ];
         locations.forEach((location, index) => {
+          const store = fakeStore({ immutable, basename: '/base' });
           const wrapper = mount(
-            <Link href={location} />,
-            context({ basename: '/base' })
+            <Provider store={store}>
+              <Link href={location} />
+            </Provider>
           );
           expect(wrapper.find('a').prop('href')).to.equal(
             `/base${expected[index]}`
@@ -286,11 +324,11 @@ const immutableLinkTest = {
 
       it('renders the correct href when persisting queries', () => {
         const onClick = sandbox.stub();
+        const store = fakeStore({ immutable, query: { persist: 'pls' } });
         const wrapper = mount(
-          <Link persistQuery href="/home?what=do" onClick={onClick} />,
-          context({
-            query: { persist: 'pls' }
-          })
+          <Provider store={store}>
+            <Link persistQuery href="/home?what=do" onClick={onClick} />
+          </Provider>
         );
 
         expect(wrapper.find('a').prop('href')).to.equal(
@@ -299,16 +337,16 @@ const immutableLinkTest = {
       });
 
       it('renders activeProps when the href pathname matches the current pathname', () => {
+        const store = fakeStore({ immutable, pathname: '/mr-jackpots' });
         const wrapper = mount(
-          <Link
-            href="/mr-jackpots"
-            activeProps={{
-              style: { color: 'red' }
-            }}
-          />,
-          context({
-            pathname: '/mr-jackpots'
-          })
+          <Provider store={store}>
+            <Link
+              href="/mr-jackpots"
+              activeProps={{
+                style: { color: 'red' }
+              }}
+            />
+          </Provider>
         );
 
         expect(wrapper.find('a').prop('style')).to.have.property(
@@ -318,16 +356,16 @@ const immutableLinkTest = {
       });
 
       it('renders without activeProps when href and location pathname do not match', () => {
+        const store = fakeStore({ immutable, pathname: '/mr-jackpots' });
         const wrapper = mount(
-          <Link
-            href="/hello-oo-ooooooooo"
-            activeProps={{
-              style: { color: 'red' }
-            }}
-          />,
-          context({
-            pathname: '/mr-jackpots'
-          })
+          <Provider store={store}>
+            <Link
+              href="/hello-oo-ooooooooo"
+              activeProps={{
+                style: { color: 'red' }
+              }}
+            />
+          </Provider>
         );
 
         expect(wrapper.find('a').prop('style')).to.be.undefined;
@@ -338,20 +376,25 @@ const immutableLinkTest = {
 
 const persistentQueryLinkTest = {
   PersistentQueryLink: PersistentQueryLinkComponent,
-  context: fakeContext,
+  immutable: false,
   testLabel: 'PersistentQueryLink'
 };
 const immutablePersistentQueryLinkTest = {
   PersistentQueryLink: ImmutablePersistentQueryLink,
-  context: fakeImmutableContext,
+  immutable: true,
   testLabel: 'ImmutablePersistentQueryLink'
 };
 
 [persistentQueryLinkTest, immutablePersistentQueryLinkTest].forEach(
-  ({ PersistentQueryLink, context, testLabel }) => {
+  ({ PersistentQueryLink, immutable, testLabel }) => {
     describe(`${testLabel}`, () => {
       it('appends persistQuery to the props', () => {
-        const wrapper = mount(<PersistentQueryLink href="/" />, context());
+        const store = fakeStore({ immutable });
+        const wrapper = mount(
+          <Provider store={store}>
+            <PersistentQueryLink href="/" />
+          </Provider>
+        );
         const link = wrapper.findWhere(node => node.name() === 'LinkComponent');
 
         expect(link.props()).to.have.property('persistQuery', true);

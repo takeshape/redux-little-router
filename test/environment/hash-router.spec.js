@@ -4,7 +4,7 @@ import sinonChai from 'sinon-chai';
 import { fromJS } from 'immutable';
 import { combineReducers as combineReduxReducers } from 'redux';
 import { combineReducers as combineImmutableReducers } from 'redux-immutable';
-import { createHashHistory } from 'history';
+import * as history from 'history';
 
 import routerForHash from '../../src/environment/hash-router';
 import immutableRouterForHash from '../../src/immutable/environment/hash-router';
@@ -81,7 +81,7 @@ const immutableHashRouterTest = {
       });
 
       it('calls createHashHistory when history is not provided', () => {
-        sandbox.stub(createHashHistory, 'default').returns({
+        sandbox.stub(history, 'createHashHistory').returns({
           listen() {},
           location: {
             pathname: '/home',
@@ -92,7 +92,7 @@ const immutableHashRouterTest = {
           routes,
           basename: '/cob-planet'
         });
-        expect(createHashHistory.default).to.be.calledWith({
+        expect(history.createHashHistory).to.be.calledWith({
           basename: '/cob-planet',
           hashType: 'slash'
         });

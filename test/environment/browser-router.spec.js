@@ -4,7 +4,7 @@ import sinonChai from 'sinon-chai';
 import { fromJS } from 'immutable';
 import { combineReducers as combineReduxReducers } from 'redux';
 import { combineReducers as combineImmutableReducers } from 'redux-immutable';
-import { createBrowserHistory } from 'history';
+import * as history from 'history';
 
 import routerForBrowser from '../../src/environment/browser-router';
 import immutableRouterForBrowser from '../../src/immutable/environment/browser-router';
@@ -111,7 +111,7 @@ const immutableBrowserRouterTest = {
       });
 
       it('calls createBrowserHistory when history is not provided', () => {
-        sandbox.stub(createBrowserHistory, 'default').returns({
+        sandbox.stub(history, 'createBrowserHistory').returns({
           listen() {},
           location: {
             pathname: '/home',
@@ -122,7 +122,7 @@ const immutableBrowserRouterTest = {
           routes,
           basename: '/cob-planet'
         });
-        expect(createBrowserHistory.default).to.be.calledWith({
+        expect(history.createBrowserHistory).to.be.calledWith({
           basename: '/cob-planet'
         });
       });

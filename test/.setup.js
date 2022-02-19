@@ -1,4 +1,8 @@
 require('babel-register')();
+var Enzyme = require('enzyme');
+var Adapter = require('@wojtekmaj/enzyme-adapter-react-17');
+
+Enzyme.configure({ adapter: new Adapter() });
 
 var jsdom = require('jsdom').jsdom;
 var sinon = require('sinon');

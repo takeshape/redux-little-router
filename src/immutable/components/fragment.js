@@ -1,9 +1,7 @@
 // @flow
 import type { MapStateToProps } from 'react-redux';
 import { connect } from 'react-redux';
-import { compose } from '@hypnosphi/recompose';
-
-import { FragmentComponent, withIdAndContext } from '../../components/fragment';
+import { FragmentComponent } from '../../components/fragment';
 import propsToJS from './props-to-js';
 
 const mapStateToProps: MapStateToProps<*, *, *> = state => ({
@@ -11,6 +9,4 @@ const mapStateToProps: MapStateToProps<*, *, *> = state => ({
 });
 
 // $FlowFixMe
-export default compose(connect(mapStateToProps), withIdAndContext, propsToJS)(
-  FragmentComponent
-);
+export default connect(mapStateToProps)(propsToJS(FragmentComponent));
