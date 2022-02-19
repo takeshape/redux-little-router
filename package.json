@@ -1,6 +1,6 @@
 {
-  "name": "redux-little-router-create-factory-fix",
-  "version": "15.1.6",
+  "name": "@takeshape/redux-little-router",
+  "version": "15.2.0",
   "description": "A barebones routing solution for Redux applications.",
   "main": "lib/index.js",
   "module": "es/index.js",
