@@ -1,13 +1,6 @@
-## Project Deprecated
+## Fork Notice
 
-As of December 10, 2018, this project is no longer under active maintenance. There are a few reasons we at Formidable made this decision:
-
-* React Router and its ecosystem have solved many of the problems this library was originally created for.
-* There are other alternatives that store React Router state in Redux, so you get the benefits of their view layer while keeping router state in your store. We recommend [`connected-react-router`](https://github.com/supasate/connected-react-router).
-* React Router v4's component APIs are more suited to presentational / connected components than prior versions. With that, it becomes more ergonomic to use those components even when routing with Redux.
-* We are hard at work at other new and exciting open source!
-
-We appreciate all of the effort our maintainers and collaborators in the community have put into this project. We're proud to have made the world of Redux routing a little bit better with all of you. 🎉
+This is a fork of [redux-little-router](https://github.com/FormidableLabs/redux-little-router) that has been updated to be compatible with React 17. The original project is deprecated so the plan for this repo is only to maintain a version of the library which is compatible with the latest version of React. We do not plan to add any new features, but do the bare minimum to maintain compatibility. Bug fix PRs are welcome but new features/enhancement PRs will not be considered.
 
 # redux-little-router
 
@@ -47,7 +40,7 @@ The following is an example of a `redux-little-router` setup that works for brow
 
 ```js
 import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
-import { routerForBrowser } from 'redux-little-router';
+import { routerForBrowser } from '@takeshape/redux-little-router';
 
 import yourReducer from './your-app';
 
@@ -101,7 +94,7 @@ const clientOnlyStore = createStore(
 Often, you'll want to update state or trigger side effects after loading the initial URL. To maintain compatibility with other store enhancers (particularly ones that handle side effects, like `redux-loop` or `redux-saga`), we require this optional initial dispatch to happen in client code by doing the following:
 
 ```js
-import { initializeCurrentLocation } from 'redux-little-router';
+import { initializeCurrentLocation } from '@takeshape/redux-little-router';
 
 // ...after creating your store
 const initialLocation = store.getState().router;
@@ -115,7 +108,7 @@ if (initialLocation) {
 `redux-little-router` provides the following **action creators** for navigation:
 
 ```js
-import { push, replace, go, goBack, goForward } from 'redux-little-router';
+import { push, replace, go, goBack, goForward } from '@takeshape/redux-little-router';
 
 // `push` and `replace`
 //
@@ -180,7 +173,7 @@ Note: if you used the vanilla action types prior to `v13`, you'll need to migrat
 These actions will execute once dispatched. For example, here's how to redirect using a [thunk](https://github.com/gaearon/redux-thunk):
 
 ```js
-import { push } from 'redux-little-router';
+import { push } from '@takeshape/redux-little-router';
 
 export const redirect = href => dispatch => {
   dispatch(push(href));
