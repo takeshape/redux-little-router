@@ -40,7 +40,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://tptee@github.com/FormidableLabs/redux-little-router.git"
+    "url": "https://github.com/takeshape/redux-little-router"
   },
   "keywords": [
     "redux",
@@ -50,9 +50,9 @@
   "author": "Tyler Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/FormidableLabs/redux-little-router/issues"
+    "url": "https://github.com/takeshape/redux-little-router/issues"
   },
-  "homepage": "https://github.com/FormidableLabs/redux-little-router#readme",
+  "homepage": "https://github.com/takeshape/redux-little-router#readme",
   "dependencies": {
     "history": "^4.6.1",
     "lodash.assign": "^4.2.0",
