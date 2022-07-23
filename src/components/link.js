@@ -149,7 +149,9 @@ const mapDispatchToProps = {
   push: pushAction,
   replace: replaceAction
 };
-const withLocation = connect(mapStateToProps, mapDispatchToProps);
+const withLocation = connect(mapStateToProps, mapDispatchToProps, null, {
+  forwardRef: true
+});
 
 const LinkWithLocation = withLocation(LinkComponent);
 const PersistentQueryLinkWithLocation = withLocation(
