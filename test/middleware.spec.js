@@ -32,8 +32,8 @@ const actionMethodMap = {
   [PUSH]: 'push',
   [REPLACE]: 'replace',
   [GO]: 'go',
-  [GO_BACK]: 'goBack',
-  [GO_FORWARD]: 'goForward',
+  [GO_BACK]: 'back',
+  [GO_FORWARD]: 'forward',
   [BLOCK]: 'block'
 };
 
@@ -59,8 +59,8 @@ const immutableMiddlewareTest = {
           push: sandbox.stub(),
           replace: sandbox.stub(),
           go: sandbox.stub(),
-          goBack: sandbox.stub(),
-          goForward: sandbox.stub(),
+          back: sandbox.stub(),
+          forward: sandbox.stub(),
           listen: sandbox.stub(),
           block: sandbox.stub()
         };

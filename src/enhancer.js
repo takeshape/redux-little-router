@@ -96,7 +96,7 @@ export const subscribeToStoreAndHistory = ({
     currentMatcher = storeSubscriber(currentMatcher);
   });
 
-  subscribeToHistory((location, action) =>
+  subscribeToHistory(({ location, action }) =>
     historyListener(currentMatcher, location, action)
   );
 };

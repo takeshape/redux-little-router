@@ -47,7 +47,7 @@ const immutableEnhancerTest = {
       beforeEach(() => {
         listenStub = sandbox.stub();
 
-        const listen = sandbox.spy(cb => cb({ pathname: '/' }));
+        const listen = sandbox.spy(cb => cb({ location: { pathname: '/' } }));
         const push = sandbox.spy(() => listen(listenStub));
         const replaceStub = sandbox.spy(() => listen(listenStub));
         historyStub = { push, replace: replaceStub, listen };

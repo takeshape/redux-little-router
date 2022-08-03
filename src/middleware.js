@@ -42,10 +42,10 @@ const navigate = (history, action) => {
       history.go(action.payload);
       break;
     case GO_BACK:
-      history.goBack();
+      history.back();
       break;
     case GO_FORWARD:
-      history.goForward();
+      history.forward();
       break;
     case BLOCK:
       unblock = history.block(action.payload);
