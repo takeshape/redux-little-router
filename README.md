@@ -1,6 +1,6 @@
 ## Fork Notice
 
-This is a fork of [redux-little-router](https://github.com/FormidableLabs/redux-little-router) that has been updated to be compatible with React 17. The original project is deprecated so the plan for this repo is only to maintain a version of the library which is compatible with the latest version of React. We do not plan to add any new features, but do the bare minimum to maintain compatibility. Bug fix PRs are welcome but new features/enhancement PRs will not be considered.
+This is a fork of [redux-little-router](https://github.com/FormidableLabs/redux-little-router) that has been updated to be compatible with newer versions of React. The original project is deprecated so the plan for this repo is only to maintain a version of the library which is compatible with the latest version of React. We do not plan to add any new features, but do the bare minimum to maintain compatibility. Bug fix PRs are welcome but new features/enhancement PRs will not be considered.
 
 # redux-little-router
 
