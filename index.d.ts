@@ -206,6 +206,7 @@ export interface LinkProps {
     payload: Location;
   };
   activeProps?: ObjectLiteral<any>;
+  children?: React.ReactNode;
 }
 
 export declare class Link extends React.Component<LinkProps, {}> {}
@@ -224,6 +225,7 @@ export interface FragmentProps {
   forNoMatch?: boolean;
   parentId?: string;
   style?: ObjectLiteral<any>;
+  children?: React.ReactNode;
 }
 
 export declare class Fragment extends React.Component<FragmentProps, {}> {}
