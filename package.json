@@ -31,7 +31,7 @@
     "test": "BABEL_ENV=commonjs mocha test/.setup.js 'test/**/*.spec.js'",
     "test-cov": "builder run -q --env='{\"BABEL_ENV\":\"coverage\"}' test-cov-base",
     "test-cov-base": "nyc mocha test/.setup.js 'test/**/*.spec.js'",
-    "check": "builder concurrent --buffer lint test",
+    "check": "builder concurrent --buffer test",
     "check-cov": "builder concurrent --buffer lint test-cov",
     "all": "npm run clean && builder concurrent --buffer lint test test-cov build"
   },
