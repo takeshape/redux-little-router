@@ -1,6 +1,6 @@
 {
   "name": "@takeshape/redux-little-router",
-  "version": "17.0.0",
+  "version": "17.0.1",
   "description": "A barebones routing solution for Redux applications.",
   "main": "lib/index.js",
   "module": "es/index.js",
