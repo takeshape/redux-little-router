@@ -35,13 +35,16 @@ const eagerMatcher = (routeList: Array<RouteCache>) => (
   return null;
 };
 
+// Add the period to the default charset
+const urlPatternOptions = { segmentValueCharset: 'a-zA-Z0-9-_~%.' };
+
 export default (routes: Object) => {
   const routeList = Object.keys(routes)
     .sort()
     .reverse()
     .map(route => ({
       route,
-      pattern: new UrlPattern(route),
+      pattern: new UrlPattern(route, urlPatternOptions),
       result: routes[route]
     }));
 

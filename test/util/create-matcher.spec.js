@@ -61,6 +61,19 @@ describe('createMatcher', () => {
       }
     });
 
+    expect(
+      matchRoute('/home/messages/foo.bar.baz/the-wat-channel')
+    ).to.deep.equal({
+      route: '/home/messages/:team/:channel',
+      params: {
+        team: 'foo.bar.baz',
+        channel: 'the-wat-channel'
+      },
+      result: {
+        name: 'channel'
+      }
+    });
+
     expect(matchRoute('/home/doot')).to.deep.equal({
       route: '/home/:spookyparam',
       params: {
