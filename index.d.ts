@@ -23,11 +23,11 @@ export type LocationOptions = {
 };
 
 export interface HistoryLocation {
-  hash?: string,
-  key?: string
-  pathname?: string,
-  search?: string,
-  state?: ObjectLiteral<any>,
+  hash?: string;
+  key?: string;
+  pathname?: string;
+  search?: string;
+  state?: ObjectLiteral<any>;
 }
 
 export interface Location extends HistoryLocation {
