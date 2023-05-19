@@ -6,6 +6,7 @@
 
 import * as React from "react";
 import { Reducer, Middleware, StoreEnhancer } from "redux";
+import {Ref} from "react";
 
 export type ObjectLiteral<T> = { [key: string]: T };
 
@@ -191,6 +192,7 @@ export function immutableRouterForHash(options: HashRouterArgs): Router;
 export interface LinkProps {
   className?: string;
   href: Href;
+  innerRef?: Ref<HTMLAnchorElement>;
   persistQuery?: boolean;
   replaceState?: boolean;
   target?: string;

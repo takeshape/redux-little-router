@@ -1,5 +1,5 @@
 // @flow
-import type { Node } from 'react';
+import type { Node, Ref } from 'react';
 import type { Href, Location } from '../types';
 
 import React, { Component } from 'react';
@@ -13,6 +13,7 @@ import stringifyHref from '../util/stringify-href';
 
 type Props = {
   children: Node,
+  innerRef: Ref,
   className: string,
   href: Href,
   persistQuery: boolean,
@@ -85,6 +86,7 @@ class LinkComponent extends Component<*> {
   render() {
     const {
       href: rawHref,
+      innerRef,
       location,
       children,
       onClick,
@@ -120,6 +122,7 @@ class LinkComponent extends Component<*> {
         href={stringifyHref(href, location.basename)}
         onClick={clickHandler}
         target={target}
+        ref={innerRef}
         {...rest}
         {...activeRest}
       >
